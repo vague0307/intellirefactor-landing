@@ -1,0 +1,192 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>intellirefactor.com — 智慧重构 · 域名出售 / Domain for Sale</title>
+  <meta name="description" content="intellirefactor.com 正在出售：intelligent + refactor，智慧重构——为 AI 编程时代而生的品牌域名。询价联系 vague0307@gmail.com，24 小时内回复。" />
+  <meta property="og:title" content="intellirefactor.com — 智慧重构" />
+  <meta property="og:description" content="intelligent + refactor = 智慧重构。为 AI 编程时代而生的品牌域名，正在出售。询价：vague0307@gmail.com" />
+  <meta property="og:type" content="website" />
+  <meta property="og:url" content="https://intellirefactor.com/" />
+  <link rel="icon" type="image/svg+xml" href="assets/favicon.svg" />
+  <link rel="preload" href="assets/fonts/JetBrainsMono.woff2" as="font" type="font/woff2" crossorigin />
+  <link rel="preload" href="assets/fonts/InstrumentSans.woff2" as="font" type="font/woff2" crossorigin />
+  <link rel="stylesheet" href="assets/styles.css" />
+</head>
+<body>
+  <div class="backdrop" aria-hidden="true"></div>
+
+  <header class="nav">
+    <a class="brand" href="#top">
+      <span class="brand-mark" aria-hidden="true">✦</span>intellirefactor
+    </a>
+    <nav class="nav-right">
+      <span class="badge">DOMAIN FOR SALE · 域名出售</span>
+      <a class="nav-cta" href="#offer">询价 / Make offer</a>
+    </nav>
+  </header>
+
+  <main id="top">
+    <!-- ============ HERO ============ -->
+    <section class="hero">
+      <p class="eyebrow"><span class="eyebrow-dash" aria-hidden="true"></span>PREMIUM .COM · AI CODING ERA</p>
+      <h1 class="wordmark">
+        <span class="wm-in">intelli</span><span class="wm-re">refactor</span><span class="wm-tld">.com</span>
+      </h1>
+      <p class="thesis">智慧重构 —— 为 AI 编程时代而生的域名</p>
+      <p class="thesis-en">A name that says what the next decade of software does:<br />code that rewrites itself, intelligently.</p>
+
+      <div class="cta-row">
+        <a class="btn btn-spark" href="#offer">✦ 询价 / Make an offer</a>
+        <button class="btn btn-ghost js-copy-email" type="button" data-email="vague0307@gmail.com">
+          vague0307@gmail.com <span class="copy-hint">复制</span>
+        </button>
+      </div>
+
+      <!-- 签名元素：一次真实的重构 diff -->
+      <figure class="diffpanel" id="diff">
+        <figcaption class="diff-head">
+          <span class="diff-file"><del>a/legacy_pricing.js</del><span class="diff-arrow" aria-hidden="true">→</span><ins>b/intellirefactor.js</ins></span>
+          <span class="diff-badge"><span class="count-add">+14</span> <span class="count-del">−14</span></span>
+        </figcaption>
+        <div class="diff-body" aria-label="代码重构示例：左侧为混乱的遗留代码，右侧为重构后的清晰代码">
+          <div class="dl del"><span class="sig">−</span><code><span class="k">function</span> calc(o, u) {</code></div>
+          <div class="dl del"><span class="sig">−</span><code>  <span class="k">let</span> t = 0;</code></div>
+          <div class="dl del"><span class="sig">−</span><code>  <span class="k">if</span> (u == <span class="s">'vip'</span>) {</code></div>
+          <div class="dl del"><span class="sig">−</span><code>    <span class="k">if</span> (o.n &gt; 100) {</code></div>
+          <div class="dl del"><span class="sig">−</span><code>      t = o.n * 29 * 0.8</code></div>
+          <div class="dl del"><span class="sig">−</span><code>    } <span class="k">else</span> { t = o.n * 29 }</code></div>
+          <div class="dl del"><span class="sig">−</span><code>  } <span class="k">else</span> {</code></div>
+          <div class="dl del"><span class="sig">−</span><code>    <span class="k">if</span> (o.n &gt; 100) {</code></div>
+          <div class="dl del"><span class="sig">−</span><code>      t = o.n * 39 * 0.9</code></div>
+          <div class="dl del"><span class="sig">−</span><code>    } <span class="k">else</span> { t = o.n * 39 }</code></div>
+          <div class="dl del"><span class="sig">−</span><code>  }</code></div>
+          <div class="dl del"><span class="sig">−</span><code>  <span class="k">if</span> (o.c) { t = t - 10 }</code></div>
+          <div class="dl del"><span class="sig">−</span><code>  <span class="k">return</span> t</code></div>
+          <div class="dl del"><span class="sig">−</span><code>}</code></div>
+
+          <div class="dl spark"><span class="sig">✦</span><code><span class="spark-text">intellirefactor：提取魔法数字 · 扁平化嵌套 · 让命名表意</span></code></div>
+
+          <div class="dl add"><span class="sig">+</span><code><span class="k">const</span> TIER = {</code></div>
+          <div class="dl add"><span class="sig">+</span><code>  vip: { base: 29, bulk: 0.8 },</code></div>
+          <div class="dl add"><span class="sig">+</span><code>  std: { base: 39, bulk: 0.9 },</code></div>
+          <div class="dl add"><span class="sig">+</span><code>}</code></div>
+          <div class="dl add"><span class="sig">+</span><code><span class="k">const</span> BULK_MIN = 100</code></div>
+          <div class="dl add"><span class="sig">+</span><code></code></div>
+          <div class="dl add"><span class="sig">+</span><code><span class="k">const</span> priceOf = (t, qty) =&gt;</code></div>
+          <div class="dl add"><span class="sig">+</span><code>  qty &gt; BULK_MIN ? t.base * t.bulk : t.base</code></div>
+          <div class="dl add"><span class="sig">+</span><code></code></div>
+          <div class="dl add"><span class="sig">+</span><code><span class="k">function</span> calcTotal({ qty, tier, coupon }) {</code></div>
+          <div class="dl add"><span class="sig">+</span><code>  <span class="k">const</span> t = TIER[tier] ?? TIER.std</code></div>
+          <div class="dl add"><span class="sig">+</span><code>  <span class="k">const</span> gross = qty * priceOf(t, qty)</code></div>
+          <div class="dl add"><span class="sig">+</span><code>  <span class="k">return</span> coupon ? gross - 10 : gross</code></div>
+          <div class="dl add"><span class="sig">+</span><code>}</code></div>
+        </div>
+        <button class="diff-replay" type="button" aria-label="重播重构动画">
+          <span aria-hidden="true">⟳</span> replay 重构
+        </button>
+      </figure>
+
+      <p class="hero-note">上图即这个域名的含义：<code>intelligent</code>（智慧）× <code>refactor</code>（重构）——让 AI 把烂代码变成好代码，一句话讲完一个产品。</p>
+    </section>
+
+    <!-- ============ 名字解码 ============ -->
+    <section class="decode">
+      <p class="eyebrow"><span class="eyebrow-dash" aria-hidden="true"></span>THE NAME / 名字解码</p>
+      <div class="morph" aria-label="intelligent 与 refactor 组成智慧重构">
+        <span class="morph-part">
+          <b class="morph-word">intelli<span class="morph-hl">gent</span></b>
+          <i class="morph-cn">智慧 · 智能</i>
+        </span>
+        <span class="morph-op" aria-hidden="true">+</span>
+        <span class="morph-part">
+          <b class="morph-word">re<span class="morph-hl">factor</span></b>
+          <i class="morph-cn">重构 · 重写</i>
+        </span>
+        <span class="morph-op" aria-hidden="true">=</span>
+        <span class="morph-part morph-result">
+          <b class="morph-word">intellirefactor</b>
+          <i class="morph-cn">智慧重构</i>
+        </span>
+      </div>
+      <p class="decode-copy">
+        一个合成词，两种语言都读得通：中文念作「智慧重构」，英文即 <em>intelligent refactor</em>。
+        它描述的正是 AI 编程工具的核心承诺——<strong>代码自己变好</strong>。
+        Copilot、Cursor、Claude Code 都在这个方向上竞逐，而这个名字把赛道写进了域名本身。
+      </p>
+    </section>
+
+    <!-- ============ 为什么值得 ============ -->
+    <section class="why">
+      <p class="eyebrow"><span class="eyebrow-dash" aria-hidden="true"></span>WHY THIS NAME / 为什么值得拥有</p>
+      <div class="cards">
+        <article class="card">
+          <p class="card-key">.sector — 赛道</p>
+          <h3>站在 AI 编程的黄金风口</h3>
+          <p>AI 重构、代码智能体、自动化维修——下一代开发工具都在抢这个叙事。名字即定位，买家一眼即懂，零解释成本。</p>
+        </article>
+        <article class="card">
+          <p class="card-key">.semantics — 语义</p>
+          <h3>一词双义，中英同构</h3>
+          <p>intelligent + refactor 的自然合词，不是生造缩写。「智慧重构」四个字可以直接当中文品牌名用，全球市场两头通吃。</p>
+        </article>
+        <article class="card">
+          <p class="card-key">.authority — 权威</p>
+          <h3>.com 顶级商业域</h3>
+          <p>全球公认、可信度最高的后缀，适合融资、商标注册与长期品牌资产持有。好的 .com 只会越来越少。</p>
+        </article>
+        <article class="card">
+          <p class="card-key">.scarcity — 稀缺</p>
+          <h3>13 字母 · 无连字符</h3>
+          <p>拼写唯一、发音顺口、口口相传无损耗。开发者手敲一次就能记住，天然适合口碑传播的产品。</p>
+        </article>
+      </div>
+    </section>
+
+    <!-- ============ 询价 ============ -->
+    <section class="offer" id="offer">
+      <div class="offer-panel">
+        <p class="eyebrow"><span class="eyebrow-dash" aria-hidden="true"></span>MAKE AN OFFER / 询价</p>
+        <h2 class="offer-title">把这个名字，变成你产品的第一步</h2>
+        <p class="offer-sub">认真报价会在 24 小时内收到回复。Serious offers get a reply within 24h.</p>
+
+        <form class="offer-form" id="offer-form" novalidate>
+          <div class="form-grid">
+            <label class="field">
+              <span class="field-label">称呼 / Name</span>
+              <input type="text" name="name" autocomplete="name" placeholder="怎么称呼你？" />
+            </label>
+            <label class="field">
+              <span class="field-label">期望报价 / Offer（USD）</span>
+              <input type="number" name="offer" min="0" step="1" inputmode="numeric" placeholder="5000" />
+            </label>
+          </div>
+          <label class="field">
+            <span class="field-label">留言 / Message</span>
+            <textarea name="message" rows="3" placeholder="你打算用它做什么？（可选）"></textarea>
+          </label>
+          <div class="form-actions">
+            <button class="btn btn-spark" type="submit">✦ 生成询价邮件 / Send offer</button>
+            <span class="form-note">点击后会打开你的邮件客户端，内容已填好，发送即可。</span>
+          </div>
+        </form>
+
+        <div class="offer-direct">
+          <span>或直接写信：</span>
+          <a class="offer-mail" href="mailto:vague0307@gmail.com?subject=%E3%80%90%E5%9F%9F%E5%90%8D%E8%AF%A2%E4%BB%B7%E3%80%91intellirefactor.com">vague0307@gmail.com</a>
+          <button class="btn btn-ghost js-copy-email" type="button" data-email="vague0307@gmail.com">复制邮箱</button>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="footer">
+    <p><span class="brand-mark" aria-hidden="true">✦</span> intellirefactor.com · 智慧重构 · This domain is for sale</p>
+    <p class="footer-sub">© 2026 · 询价 / Inquiries: <a href="mailto:vague0307@gmail.com">vague0307@gmail.com</a></p>
+  </footer>
+
+  <div class="toast" role="status" aria-live="polite" hidden>已复制到剪贴板</div>
+  <script src="assets/main.js" defer></script>
+</body>
+</html>
