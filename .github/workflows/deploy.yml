@@ -1,0 +1,35 @@
+name: Deploy
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+concurrency:
+  group: deploy-prod
+  cancel-in-progress: true
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - name: 部署到 ECS（git pull → 发布静态文件 → nginx reload）
+        uses: appleboy/ssh-action@v1.0.3
+        with:
+          host: ${{ secrets.ECS_HOST }}
+          username: ${{ secrets.ECS_USER }}
+          key: ${{ secrets.ECS_SSH_PRIVATE_KEY }}
+          command_timeout: 10m
+          script: |
+            set -euo pipefail
+            if [ ! -d /opt/intellirefactor-landing/.git ]; then
+              git clone -q https://github.com/vague0307/intellirefactor-landing.git /opt/intellirefactor-landing
+            else
+              git -C /opt/intellirefactor-landing fetch --all -q
+              git -C /opt/intellirefactor-landing reset --hard origin/main -q
+            fi
+            rm -rf /www/wwwroot/intellirefactor.com
+            mkdir -p /www/wwwroot/intellirefactor.com
+            cp -a /opt/intellirefactor-landing/index.html /www/wwwroot/intellirefactor.com/
+            cp -a /opt/intellirefactor-landing/assets /www/wwwroot/intellirefactor.com/
+            nginx -t && nginx -s reload
+            echo "[deploy] done: $(ls /www/wwwroot/intellirefactor.com)"
