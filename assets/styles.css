@@ -1,7 +1,7 @@
 /* ============================================================
    intellirefactor.com — 智慧重构
-   设计语言：以「代码 diff」为母题 —— 删除红（遗留）、新增绿（重构）、
-   智能琥珀（AI 火花）。深夜编辑器底色，等宽字体发声。
+   设计语言：以「工作流重构」为母题 —— 阻塞红（改造前）、生长绿（AI 原生）、
+   智能琥珀（重构引擎）。深色运营系统底色，等宽字体表达结构感。
    ============================================================ */
 
 :root {
@@ -12,9 +12,9 @@
   --fg: #e9edf5;
   --muted: #8e98ae;
   --faint: #5b6478;
-  --del: #f0637e;          /* diff 删除 */
+  --del: #f0637e;          /* 改造前 · 阻塞 */
   --del-dim: rgba(240, 99, 126, 0.09);
-  --add: #3ed598;          /* diff 新增 */
+  --add: #3ed598;          /* 改造后 · 生长 */
   --add-dim: rgba(62, 213, 152, 0.09);
   --spark: #f0b34e;        /* 智能 · 琥珀 */
   --spark-dim: rgba(240, 179, 78, 0.12);
@@ -44,7 +44,7 @@ body {
   overflow-x: hidden;
 }
 
-/* 极淡的点阵 + 双侧微光，把 diff 配色埋进背景 */
+/* 极淡的点阵 + 双侧微光，把 before / after 配色埋进背景 */
 .backdrop {
   position: fixed; inset: 0; z-index: -1; pointer-events: none;
   background:
@@ -203,11 +203,11 @@ a:hover { text-decoration: underline; text-underline-offset: 3px; }
   margin-left: 0.35rem;
 }
 
-/* ---------- 签名元素：diff 面板 ---------- */
+/* ---------- 签名元素：工作流重构面板 ---------- */
 
-.diffpanel {
+.workflow-panel {
   margin: 0 auto;
-  max-width: 720px;
+  max-width: 1000px;
   background: var(--surface);
   border: 1px solid var(--line);
   border-radius: var(--radius);
@@ -216,79 +216,185 @@ a:hover { text-decoration: underline; text-underline-offset: 3px; }
   overflow: hidden;
   position: relative;
 }
-.diff-head {
-  display: flex; align-items: center; justify-content: space-between; gap: 1rem;
-  padding: 0.75rem 1.1rem;
+.workflow-head {
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr) auto;
+  align-items: center;
+  gap: 1rem;
+  padding: 0.95rem 1.15rem;
   border-bottom: 1px solid var(--line);
   background: var(--raised);
-  font-family: var(--mono);
-  font-size: 0.78rem;
 }
-.diff-file del { color: var(--del); text-decoration: line-through; text-decoration-color: rgba(240,99,126,0.55); }
-.diff-file ins { color: var(--add); text-decoration: none; }
-.diff-arrow { color: var(--faint); margin: 0 0.55rem; }
-.diff-badge { color: var(--muted); white-space: nowrap; }
-.count-add { color: var(--add); }
-.count-del { color: var(--del); }
-
-.diff-body {
+.workflow-kicker {
   font-family: var(--mono);
-  font-size: 0.8rem;
-  line-height: 1.9;
-  padding: 0.9rem 0;
-  overflow-x: auto;
+  font-size: 0.68rem;
+  letter-spacing: 0.12em;
+  color: var(--spark);
+  white-space: nowrap;
 }
-.dl {
+.workflow-head h2 {
+  margin: 0;
+  font-size: 0.96rem;
+  font-weight: 600;
+  text-align: center;
+}
+.workflow-metric {
   display: flex;
-  min-width: max-content;
-  padding: 0 0.4rem 0 0;
+  align-items: center;
+  gap: 0.65rem;
+  font-family: var(--mono);
+  font-size: 0.68rem;
+  white-space: nowrap;
+}
+.workflow-metric del { color: var(--del); text-decoration-color: rgba(240, 99, 126, 0.6); }
+.workflow-metric ins { color: var(--add); text-decoration: none; }
+
+.workflow-body {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) 2.2rem minmax(0, 1.08fr) 2.2rem minmax(0, 1fr);
+  align-items: stretch;
+  padding: 1.1rem 1.1rem 3.2rem;
+}
+.workflow-stage {
+  min-width: 0;
+  padding: 1rem;
+  border: 1px solid var(--line);
+  border-radius: 11px;
+  background: rgba(15, 19, 28, 0.74);
+}
+.stage-before { border-color: rgba(240, 99, 126, 0.24); }
+.stage-refactor {
+  border-color: rgba(240, 179, 78, 0.42);
+  background: linear-gradient(180deg, rgba(240, 179, 78, 0.08), rgba(15, 19, 28, 0.82));
+  box-shadow: 0 18px 45px -30px rgba(240, 179, 78, 0.75);
+}
+.stage-after { border-color: rgba(62, 213, 152, 0.28); }
+
+.stage-head {
+  display: flex;
+  align-items: center;
+  gap: 0.7rem;
+  padding-bottom: 0.85rem;
+  margin-bottom: 0.85rem;
+  border-bottom: 1px solid var(--line);
+}
+.stage-index {
+  display: grid;
+  place-items: center;
+  flex: none;
+  width: 2.1rem;
+  height: 2.1rem;
+  border: 1px solid currentColor;
+  border-radius: 50%;
+  font-family: var(--mono);
+  font-size: 0.68rem;
+  color: var(--muted);
+}
+.stage-before .stage-index, .stage-before .stage-label { color: var(--del); }
+.stage-refactor .stage-index, .stage-refactor .stage-label { color: var(--spark); }
+.stage-after .stage-index, .stage-after .stage-label { color: var(--add); }
+.stage-label {
+  margin: 0 0 0.12rem;
+  font-family: var(--mono);
+  font-size: 0.61rem;
+  line-height: 1.4;
+  letter-spacing: 0.08em;
+}
+.stage-head h3 {
+  margin: 0;
+  font-size: 0.92rem;
+  line-height: 1.35;
+}
+
+.workflow-list {
+  display: grid;
+  gap: 0.52rem;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+.workflow-step {
+  display: grid;
+  grid-template-columns: 1.65rem minmax(0, 1fr);
+  align-items: start;
+  gap: 0.55rem;
+  padding: 0.58rem;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  background: var(--surface);
   opacity: 1;
   transform: none;
 }
-.dl .sig {
-  flex: none;
-  width: 2.2rem;
-  text-align: center;
-  user-select: none;
+.step-code {
+  display: grid;
+  place-items: center;
+  min-height: 1.65rem;
+  border-radius: 5px;
+  background: var(--raised);
+  font-family: var(--mono);
+  font-size: 0.58rem;
+  font-weight: 700;
+  color: var(--muted);
 }
-.dl code {
-  font-family: inherit;
-  white-space: pre;
-  padding-right: 1.2rem;
+.stage-before .step-code { color: var(--del); background: var(--del-dim); }
+.stage-refactor .step-code { color: var(--spark); background: var(--spark-dim); }
+.stage-after .step-code { color: var(--add); background: var(--add-dim); }
+.workflow-step b {
+  display: block;
+  font-size: 0.8rem;
+  line-height: 1.35;
+  color: var(--fg);
 }
-.dl .k { color: #c792ea; }   /* 关键字 */
-.dl .s { color: #ecc48d; }   /* 字符串 */
-
-.dl.del { background: var(--del-dim); }
-.dl.del .sig { color: var(--del); }
-.dl.del code { color: #d998a9; }
-
-.dl.add { background: var(--add-dim); }
-.dl.add .sig { color: var(--add); }
-.dl.add code { color: #9adfc2; }
-.dl.add .k { color: var(--add); }
-
-.dl.spark { background: var(--spark-dim); }
-.dl.spark .sig { color: var(--spark); }
-.spark-text { color: var(--spark); }
+.workflow-step small {
+  display: block;
+  margin-top: 0.12rem;
+  font-size: 0.72rem;
+  line-height: 1.45;
+  color: var(--muted);
+}
+.workflow-arrow {
+  display: grid;
+  place-items: center;
+  color: var(--muted);
+  font-family: var(--mono);
+  transition: opacity 0.28s ease;
+}
+.workflow-arrow span {
+  display: grid;
+  place-items: center;
+  width: 1.55rem;
+  height: 1.55rem;
+  border: 1px solid var(--line);
+  border-radius: 50%;
+  background: var(--ink);
+}
 
 /* 动画三态：待入场 → 已入场 */
-.diffpanel.play .dl { opacity: 0; transform: translateX(-8px); }
-.diffpanel.play .dl.on { opacity: 1; transform: none; transition: opacity 0.28s ease, transform 0.28s ease; }
+.workflow-panel.play .workflow-step { opacity: 0; transform: translateY(7px); }
+.workflow-panel.play .workflow-step.on {
+  opacity: 1;
+  transform: none;
+  transition: opacity 0.3s ease, transform 0.3s ease;
+}
+.workflow-panel.play .workflow-arrow { opacity: 0; }
+.workflow-panel.play .workflow-arrow.on { opacity: 1; }
 
-.diff-replay {
-  position: absolute; right: 0.8rem; bottom: 0.7rem;
+.workflow-replay {
+  position: absolute;
+  right: 0.75rem;
+  bottom: 0.55rem;
   font-family: var(--mono);
-  font-size: 0.7rem;
-  color: var(--faint);
-  background: rgba(15, 19, 28, 0.75);
+  min-height: 34px;
+  font-size: 0.72rem;
+  color: var(--muted);
+  background: rgba(15, 19, 28, 0.86);
   border: 1px solid var(--line);
   border-radius: 7px;
   padding: 0.25rem 0.6rem;
   cursor: pointer;
   backdrop-filter: blur(4px);
 }
-.diff-replay:hover { color: var(--fg); border-color: var(--muted); }
+.workflow-replay:hover { color: var(--fg); border-color: var(--muted); }
 
 .hero-note {
   color: var(--muted);
@@ -502,15 +608,37 @@ a:hover { text-decoration: underline; text-underline-offset: 3px; }
 
 /* ---------- 响应式 ---------- */
 
+@media (max-width: 900px) {
+  .workflow-head {
+    grid-template-columns: minmax(0, 1fr) auto;
+  }
+  .workflow-head h2 {
+    grid-column: 1 / -1;
+    grid-row: 2;
+    text-align: left;
+  }
+  .workflow-body {
+    grid-template-columns: 1fr;
+    gap: 0.7rem;
+  }
+  .workflow-arrow span { transform: rotate(90deg); }
+}
+
 @media (max-width: 760px) {
   body { font-size: 16px; }
   :root { --w: calc(100% - 2.2rem); }
   .nav { flex-wrap: wrap; }
   .badge { display: none; }
+  .wordmark { font-size: clamp(1.5rem, 7.8vw, 3.4rem); }
   .cards { grid-template-columns: 1fr; }
   .form-grid { grid-template-columns: 1fr; }
-  .diff-body { font-size: 0.72rem; }
   .cta-row .btn { width: 100%; justify-content: center; }
+  .workflow-head { gap: 0.55rem; }
+  .workflow-kicker { font-size: 0.62rem; }
+  .workflow-metric { gap: 0.45rem; font-size: 0.61rem; }
+  .workflow-body { padding: 0.8rem 0.8rem 3.7rem; }
+  .workflow-stage { padding: 0.85rem; }
+  .workflow-replay { min-height: 44px; padding-inline: 0.85rem; }
   .morph { flex-direction: column; gap: 0.9rem; }
   .morph-op { padding-bottom: 0; }
   .morph-cn { margin-left: 0.35em; }
@@ -521,7 +649,9 @@ a:hover { text-decoration: underline; text-underline-offset: 3px; }
 @media (prefers-reduced-motion: reduce) {
   html { scroll-behavior: auto; }
   .btn, .card { transition: none; }
-  .diffpanel.play .dl { opacity: 1; transform: none; }
+  .workflow-panel.play .workflow-step,
+  .workflow-panel.play .workflow-arrow { opacity: 1; transform: none; }
+  .workflow-panel.play .workflow-arrow span { transform: none; }
 }
 
 /* 页面载入：主标题与面板依次浮现 */

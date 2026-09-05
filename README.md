@@ -1,6 +1,8 @@
 # intellirefactor.com — 智慧重构
 
-域名出售单页。`intelligent + refactor = 智慧重构`，主视觉是一次真实的代码重构 diff 动画：遗留代码逐行删去，AI 重构后的清晰代码逐行亮起。
+域名出售单页。`intelligent + refactor = 智慧重构`，表达的不是狭义的代码重构，而是用 AI 重新设计组织的工作方式：重排人、AI、工具与数据，让流程从手工搬运升级为可以理解、执行和持续学习的 AI 原生工作流。
+
+主视觉用三阶段动画解释这一定位：改造前的人工交接 → AI 对工作流的理解与重排 → 更少等待、持续优化的智能协作。
 
 - 纯静态（HTML/CSS/JS，零依赖零构建），字体自托管（JetBrains Mono / Instrument Sans 变量字体，~60KB）
 - 询价表单合成 mailto 邮件发送至 **vague0307@gmail.com**（无第三方表单服务依赖）
@@ -22,9 +24,19 @@ python3 -m http.server 8923
 ## 文件结构
 
 ```
-index.html            页面主体（含完整 diff 静态标记，noscript 可读）
-assets/styles.css     设计系统：diff 三色（删除红/新增绿/智能琥珀）
-assets/main.js        diff 逐行动画 · 询价邮件合成 · 复制邮箱
+index.html            页面主体（含完整工作流静态标记，noscript 可读）
+assets/styles.css     设计系统：工作流三色（阻塞红/生长绿/智能琥珀）
+assets/main.js        工作流重构动画 · 询价邮件合成 · 复制邮箱
 assets/favicon.svg    站点图标
+assets/og.svg         OG 分享图可编辑源文件
+assets/og.png         OG 分享图发布文件
 assets/fonts/         自托管变量字体
+tests/test_landing.py 定位与询价流程的静态回归测试
+```
+
+## 验证
+
+```bash
+python3 -B -m unittest tests/test_landing.py -v
+node --check assets/main.js
 ```

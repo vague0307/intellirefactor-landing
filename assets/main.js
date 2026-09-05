@@ -1,22 +1,17 @@
-/* intellirefactor.com — 交互：diff 重构动画 · 询价邮件合成 · 复制邮箱 */
+/* intellirefactor.com — 交互：工作流重构动画 · 询价邮件合成 · 复制邮箱 */
 (function () {
   "use strict";
 
   var prefersReduced = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
 
-  /* ---------- 签名动画：代码重构 diff ---------- */
+  /* ---------- 签名动画：工作流重构 ---------- */
 
-  var panel = document.getElementById("diff");
-  var lines = panel ? Array.prototype.slice.call(panel.querySelectorAll(".dl")) : [];
-  var badgeAdd = panel ? panel.querySelector(".count-add") : null;
-  var badgeDel = panel ? panel.querySelector(".count-del") : null;
-  var replayBtn = panel ? panel.querySelector(".diff-replay") : null;
+  var panel = document.getElementById("workflow");
+  var pieces = panel
+    ? Array.prototype.slice.call(panel.querySelectorAll(".workflow-step, .workflow-arrow"))
+    : [];
+  var replayBtn = panel ? panel.querySelector(".workflow-replay") : null;
   var timers = [];
-
-  var addCount = lines.filter(function (l) { return l.classList.contains("add"); }).length;
-  var delCount = lines.filter(function (l) { return l.classList.contains("del"); }).length;
-  if (badgeAdd) badgeAdd.textContent = "+" + addCount;
-  if (badgeDel) badgeDel.textContent = "−" + delCount;
 
   function clearTimers() {
     timers.forEach(clearTimeout);
@@ -27,22 +22,16 @@
     if (!panel || prefersReduced) return;
     clearTimers();
     panel.classList.add("play");
-    lines.forEach(function (l) { l.classList.remove("on"); });
-    if (badgeAdd) badgeAdd.textContent = "+0";
-    if (badgeDel) badgeDel.textContent = "−0";
+    pieces.forEach(function (piece) { piece.classList.remove("on"); });
 
-    var shownAdd = 0, shownDel = 0, t = 350;
-    lines.forEach(function (line) {
-      var isAdd = line.classList.contains("add");
-      var isSpark = line.classList.contains("spark");
-      t += isSpark ? 480 : (isAdd ? 105 : 80);
-      (function (line, isAdd, isSpark, at) {
+    var t = 280;
+    pieces.forEach(function (piece) {
+      t += piece.classList.contains("workflow-arrow") ? 260 : 115;
+      (function (item, at) {
         timers.push(setTimeout(function () {
-          line.classList.add("on");
-          if (isAdd && badgeAdd) badgeAdd.textContent = "+" + ++shownAdd;
-          if (!isAdd && !isSpark && badgeDel) badgeDel.textContent = "−" + ++shownDel;
+          item.classList.add("on");
         }, at));
-      })(line, isAdd, isSpark, t);
+      })(piece, t);
     });
   }
 
