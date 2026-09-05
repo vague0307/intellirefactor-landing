@@ -1,7 +1,9 @@
 from html.parser import HTMLParser
+import hashlib
 from pathlib import Path
 import re
 import unittest
+from urllib.parse import parse_qs, urlsplit
 
 
 ROOT = Path(__file__).resolve().parents[1]
@@ -140,6 +142,33 @@ class LandingPageTests(unittest.TestCase):
             ".workflow-panel.play .workflow-arrow",
             reduced_motion.group("body"),
         )
+
+    def test_changed_assets_are_cache_busted_for_returning_visitors(self):
+        mutable_urls = []
+        for tag, attrs in self.parser.tags:
+            if tag == "link" and attrs.get("rel") in {"stylesheet", "icon"}:
+                mutable_urls.append(attrs.get("href", ""))
+            elif tag == "script" and attrs.get("src"):
+                mutable_urls.append(attrs["src"])
+            elif tag == "meta" and attrs.get("property") == "og:image":
+                mutable_urls.append(attrs.get("content", ""))
+
+        expected_paths = {
+            "assets/favicon.svg",
+            "assets/styles.css",
+            "assets/main.js",
+            "/assets/og.png",
+        }
+        parsed_urls = [urlsplit(url) for url in mutable_urls]
+        self.assertEqual({url.path for url in parsed_urls}, expected_paths)
+
+        for url in parsed_urls:
+            query = parse_qs(url.query)
+            self.assertIn("v", query, url.geturl())
+            self.assertEqual(len(query["v"]), 1, url.geturl())
+            asset = ROOT / url.path.lstrip("/")
+            expected_version = hashlib.sha256(asset.read_bytes()).hexdigest()[:12]
+            self.assertEqual(query["v"][0], expected_version, url.geturl())
 
 
 if __name__ == "__main__":
